@@ -69,7 +69,19 @@
 
 (use-package flycheck
   :ensure t
-  :init (global-flycheck-mode))
+  :init (global-flycheck-mode)
+  :config (progn
+	    (setq-default flycheck-disabled-checkers
+			  (append flycheck-disabled-checkers
+				  '(javascript-jshint)))
+
+	    (flycheck-add-mode 'javascript-eslint 'web-mode)
+	    (setq-default flycheck-temp-prefix ".flycheck")
+	    
+	    ;; Disable JSON checking by default
+	    (setq-default flycheck-disabled-checkers
+			  (append flycheck-disabled-checkers
+				  '(json-jsonlist)))))
 
 ;; -- Autocompletion
 
@@ -103,19 +115,19 @@
   :ensure t)
 
 (use-package web-mode
-  :after (tide)
+  :after (tide flycheck)
   :ensure t
   :config (progn
 	    (setq web-mode-code-indent-offset 2)
 	    (defun setup-tide-mode ()
 	      (interactive)
 	      (tide-setup)
-	      ;; (flycheck-mode +1)
+	      (flycheck-mode +1)
 	      (setq flycheck-check-syntax-automatically '(save mode-enabled))
 	      (eldoc-mode +1)
 	      (local-set-key (kbd "M-.") 'tide-jump-to-definition)
 	      (local-set-key (kbd "M-,") 'tide-jump-back)
-	      ;; (company-mode +1)
+	      (company-mode +1)
 	      (tide-hl-identifier-mode +1))
 	    (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 	    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
@@ -143,7 +155,11 @@
 
 (use-package cider
   :ensure t
-  :init (setq cider-show-error-buffer nil))
+  :after (company)
+  :init (setq cider-show-error-buffer nil)
+  :config (progn
+	    (add-hook 'cider-repl-mode-hook #'company-mode)
+	    (add-hook 'cider-mode-hook #'company-mode)))
 
 (use-package parinfer-rust-mode
   :ensure t
