@@ -60,8 +60,7 @@
 (use-package magit
   :ensure t
   :config (progn
-	    (global-set-key (kbd "C-x g") 'magit)
-	    ))
+	    (global-set-key (kbd "C-x g") 'magit)))
   
 (use-package yasnippet
   :ensure t
@@ -147,17 +146,19 @@
   :init (setq cider-show-error-buffer nil)
   :config (progn
 	    (add-hook 'cider-repl-mode-hook #'company-mode)
-	    (add-hook 'cider-mode-hook #'company-mode)))
+	    (add-hook 'cider-mode-hook #'company-mode))
+  )
+
 
 (use-package parinfer-rust-mode
   :ensure t
   :after (clojure-mode racket-mode)
-    :config (progn)
-        (add-hook 'racket-mode-hook #'parinfer-rust-mode)
-        (add-hook 'clojure-mode-hook #'parinfer-rust-mode)
-        (add-hook 'emacs-lisp-mode-hook #'parinfer-rust-mode)
-    :init
-    (setq parinfer-rust-auto-download t))
+  :config (progn
+            (add-hook 'racket-mode-hook #'parinfer-rust-mode)
+            (add-hook 'clojure-mode-hook #'parinfer-rust-mode)
+            (add-hook 'emacs-lisp-mode-hook #'parinfer-rust-mode))
+  :init
+  (setq parinfer-rust-auto-download t))
 
 
 ;; - GENERATED Code
