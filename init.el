@@ -69,19 +69,7 @@
 
 (use-package flycheck
   :ensure t
-  :init (global-flycheck-mode)
-  :config (progn
-	    (setq-default flycheck-disabled-checkers
-			  (append flycheck-disabled-checkers
-				  '(javascript-jshint)))
-
-	    (flycheck-add-mode 'javascript-eslint 'web-mode)
-	    (setq-default flycheck-temp-prefix ".flycheck")
-	    
-	    ;; Disable JSON checking by default
-	    (setq-default flycheck-disabled-checkers
-			  (append flycheck-disabled-checkers
-				  '(json-jsonlist)))))
+  :init (global-flycheck-mode))
 
 ;; -- Autocompletion
 
