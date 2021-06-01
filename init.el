@@ -20,7 +20,7 @@
 ;; - GLOBALS
 (global-linum-mode 1)
 ;; Default start in fullscreen.
-(toggle-frame-fullscreen)
+(add-hook 'after-init-hook '(lambda () (toggle-frame-fullscreen)))
 ;; -- Key bindings
 (global-set-key (kbd "C-c c f") 'toggle-frame-fullscreen)
 (global-set-key (kbd "C-l") 'goto-line)
@@ -56,6 +56,12 @@
 	    (global-set-key (kbd "C-c p f") #'helm-projectile-find-file)
 	    (global-set-key (kbd "C-c p p") #'helm-projectile-switch-project))
   :after(helm projectile))
+
+(use-package magit
+  :ensure t
+  :config (progn
+	    (global-set-key (kbd "C-x g") 'magit)
+	    ))
   
 (use-package yasnippet
   :ensure t
@@ -108,6 +114,7 @@
 	      (setq flycheck-check-syntax-automatically '(save mode-enabled))
 	      (eldoc-mode +1)
 	      (local-set-key (kbd "M-.") 'tide-jump-to-definition)
+	      (local-set-key (kbd "M-,") 'tide-jump-back)
 	      ;; (company-mode +1)
 	      (tide-hl-identifier-mode +1))
 	    (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
@@ -149,7 +156,7 @@
     (setq parinfer-rust-auto-download t))
 
 
-;; - CUSTOM
+;; - GENERATED Code
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -157,7 +164,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(helm-projectile projectile web-mode yasnippet yassnippet cider company company-mode use-package tide sqlformat racket-mode parinfer-rust-mode markdown-mode helm git-link exec-path-from-shell clojure-mode)))
+   '(magit helm-projectile projectile web-mode yasnippet yassnippet cider company company-mode use-package tide sqlformat racket-mode parinfer-rust-mode markdown-mode helm git-link exec-path-from-shell clojure-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
