@@ -17,6 +17,11 @@
               (exec-path-from-shell-initialize))))
 
 
+(defun kill-all-buffers ()
+  (interactive)
+  (mapcar '(lambda (buffer) (kill-buffer buffer)) (buffer-list))
+  )
+
 ;; - GLOBALS
 (global-linum-mode 1)
 ;; Default start in fullscreen.
@@ -145,6 +150,7 @@
   :after (company)
   :init (setq cider-show-error-buffer nil)
   :config (progn
+	    (define-key clojure-mode-map (kbd "C-c f") 'cider-format-buffer) ; rebind tab to run persistent action
 	    (add-hook 'cider-repl-mode-hook #'company-mode)
 	    (add-hook 'cider-mode-hook #'company-mode))
   )
