@@ -145,6 +145,11 @@
 (use-package clojure-mode
   :ensure t)
 
+(use-package fira-code-mode
+  :ensure t
+  :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
+  :hook prog-mode) ;; Enables fira-code-mode automatically for programming major modes
+
 (use-package cider
   :ensure t
   :after (company)
@@ -175,7 +180,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(magit helm-projectile projectile web-mode yasnippet yassnippet cider company company-mode use-package tide sqlformat racket-mode parinfer-rust-mode markdown-mode helm git-link exec-path-from-shell clojure-mode)))
+   '(fira-code-mode magit helm-projectile projectile web-mode yasnippet yassnippet cider company company-mode use-package tide sqlformat racket-mode parinfer-rust-mode markdown-mode helm git-link exec-path-from-shell clojure-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
