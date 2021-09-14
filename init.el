@@ -7,6 +7,32 @@
    t)
   (package-initialize))
 
+
+;; (defun delete-old-backups ()
+;;   (message "Deleting old backup files...")
+;;   (let ((week (* 60 60 24 7))
+;; 	(current (float-time (current-time))))
+;;     (dolist (file (directory-files temporary-file-directory t))
+;;       (when (and (backup-file-name-p file)
+;; 		 (> (- current (float-time (fifth (file-attributes file))))
+;; 		    week))
+;; 	(message "%s" file)
+;; 	(delete-file file)))))
+
+(defun set-backup ()
+ (setq backup-directory-alist
+	   `((".*" . ,temporary-file-directory)))
+ (setq auto-save-file-name-transforms
+       `((".*" ,temporary-file-directory t))))
+(set-backup)
+(setq-default truncate-lines 0)
+
+(setq org-todo-keywords
+      '((sequence "TODO" "IN-PROGRESS" "|" "DONE" )))
+
+(use-package solarized-theme
+  :ensure t)
+
 ;; Execute from shell so commands work on osx.
 (use-package exec-path-from-shell
   :ensure t
@@ -142,8 +168,13 @@
   (progn
     (add-to-list 'auto-mode-alist '("\\.rkt\\'" . racket-mode))))
 
-(use-package clojure-mode
+(use-package flycheck-clj-kondo
   :ensure t)
+
+(use-package clojure-mode
+  :ensure t
+  :config
+  (require 'flycheck-clj-kondo))
 
 (use-package fira-code-mode
   :ensure t
@@ -155,6 +186,7 @@
   :after (company)
   :init (setq cider-show-error-buffer nil)
   :config (progn
+	    ;; Disabling as was erroring. Should renable when investigated further.
 	    (define-key clojure-mode-map (kbd "C-c f") 'cider-format-buffer) ; rebind tab to run persistent action
 	    (add-hook 'cider-repl-mode-hook #'company-mode)
 	    (add-hook 'cider-mode-hook #'company-mode)))
@@ -180,6 +212,11 @@
   :init
   (setq parinfer-rust-auto-download t))
 
+(use-package prettier-js
+  :ensure t
+  :config (progn
+	    (add-hook 'js-mode-hook 'prettier-js-mode)))
+
 
 ;; - GENERATED Code
 
@@ -188,8 +225,76 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
+ '(company-quickhelp-color-background "#4F4F4F")
+ '(company-quickhelp-color-foreground "#DCDCCC")
+ '(compilation-message-face 'default)
+ '(cua-global-mark-cursor-color "#2aa198")
+ '(cua-normal-cursor-color "#657b83")
+ '(cua-overwrite-cursor-color "#b58900")
+ '(cua-read-only-cursor-color "#859900")
+ '(custom-enabled-themes '(leuven))
+ '(custom-safe-themes
+   '("f0b0416502d80b1f21153df6f4dcb20614b9992cde4d5a5688053a271d0e8612" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "aff12479ae941ea8e790abb1359c9bb21ab10acd15486e07e64e0e10d7fdab38" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "75a8194e6aa3ef759e8512fb6149137e2ada5947a7424e4278c395e374835afe" "e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" default))
+ '(fci-rule-color "#383838")
+ '(highlight-changes-colors '("#d33682" "#6c71c4"))
+ '(highlight-symbol-colors
+   '("#efe5da4aafb2" "#cfc5e1add08c" "#fe53c9e7b34f" "#dbb6d3c3dcf4" "#e183dee1b053" "#f944cc6dae48" "#d360dac5e06a"))
+ '(highlight-symbol-foreground-color "#586e75")
+ '(highlight-tail-colors
+   '(("#eee8d5" . 0)
+     ("#b3c34d" . 20)
+     ("#6ccec0" . 30)
+     ("#74adf5" . 50)
+     ("#e1af4b" . 60)
+     ("#fb7640" . 70)
+     ("#ff699e" . 85)
+     ("#eee8d5" . 100)))
+ '(hl-bg-colors
+   '("#e1af4b" "#fb7640" "#ff6849" "#ff699e" "#8d85e7" "#74adf5" "#6ccec0" "#b3c34d"))
+ '(hl-fg-colors
+   '("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3"))
+ '(hl-paren-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
+ '(lsp-ui-doc-border "#586e75")
+ '(nrepl-message-colors
+   '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(package-selected-packages
-   '(clj-refactor fira-code-mode magit helm-projectile projectile web-mode yasnippet yassnippet cider company company-mode use-package tide sqlformat racket-mode parinfer-rust-mode markdown-mode helm git-link exec-path-from-shell clojure-mode)))
+   '(flycheck-clj-kondo prettier-js solarized-theme zenburn-theme clj-refactor fira-code-mode magit helm-projectile projectile web-mode yasnippet yassnippet cider company company-mode use-package tide sqlformat racket-mode parinfer-rust-mode markdown-mode helm git-link exec-path-from-shell clojure-mode))
+ '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
+ '(pos-tip-background-color "#eee8d5")
+ '(pos-tip-foreground-color "#586e75")
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
+ '(term-default-bg-color "#fdf6e3")
+ '(term-default-fg-color "#657b83")
+ '(vc-annotate-background "#2B2B2B")
+ '(vc-annotate-background-mode nil)
+ '(vc-annotate-color-map
+   '((20 . "#BC8383")
+     (40 . "#CC9393")
+     (60 . "#DFAF8F")
+     (80 . "#D0BF8F")
+     (100 . "#E0CF9F")
+     (120 . "#F0DFAF")
+     (140 . "#5F7F5F")
+     (160 . "#7F9F7F")
+     (180 . "#8FB28F")
+     (200 . "#9FC59F")
+     (220 . "#AFD8AF")
+     (240 . "#BFEBBF")
+     (260 . "#93E0E3")
+     (280 . "#6CA0A3")
+     (300 . "#7CB8BB")
+     (320 . "#8CD0D3")
+     (340 . "#94BFF3")
+     (360 . "#DC8CC3")))
+ '(vc-annotate-very-old-color "#DC8CC3")
+ '(weechat-color-list
+   '(unspecified "#fdf6e3" "#eee8d5" "#a7020a" "#dc322f" "#5b7300" "#859900" "#866300" "#b58900" "#0061a8" "#268bd2" "#a00559" "#d33682" "#007d76" "#2aa198" "#657b83" "#839496"))
+ '(xterm-color-names
+   ["#eee8d5" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#073642"])
+ '(xterm-color-names-bright
+   ["#fdf6e3" "#cb4b16" "#93a1a1" "#839496" "#657b83" "#6c71c4" "#586e75" "#002b36"]))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
