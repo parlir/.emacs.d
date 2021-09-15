@@ -202,6 +202,14 @@
 	      (cljr-add-keybindings-with-prefix "C-c C-m"))
 	    (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)))
 
+;; Rand
+
+(use-package yaml-mode
+  :ensure t)
+
+(use-package terraform-mode
+  :ensure t)
+
 (use-package parinfer-rust-mode
   :ensure t
   :after (clojure-mode racket-mode)
@@ -260,7 +268,7 @@
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(package-selected-packages
-   '(flycheck-clj-kondo prettier-js solarized-theme zenburn-theme clj-refactor fira-code-mode magit helm-projectile projectile web-mode yasnippet yassnippet cider company company-mode use-package tide sqlformat racket-mode parinfer-rust-mode markdown-mode helm git-link exec-path-from-shell clojure-mode))
+   '(terraform-mode yaml-mode flycheck-clj-kondo prettier-js solarized-theme zenburn-theme clj-refactor fira-code-mode magit helm-projectile projectile web-mode yasnippet yassnippet cider company company-mode use-package tide sqlformat racket-mode parinfer-rust-mode markdown-mode helm git-link exec-path-from-shell clojure-mode))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
