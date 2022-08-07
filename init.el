@@ -43,6 +43,16 @@
               (exec-path-from-shell-initialize))))
 
 
+(defun reload-dir-locals-for-all-buffer-in-this-directory ()
+  "For every buffer with the same `default-directory` as the 
+current buffer's, reload dir-locals."
+  (interactive)
+  (let ((dir default-directory))
+    (dolist (buffer (buffer-list))
+      (with-current-buffer buffer
+        (when (equal default-directory dir)
+          (my-reload-dir-locals-for-current-buffer))))))
+
 (defun kill-all-buffers ()
   (interactive)
   (mapcar '(lambda (buffer) (kill-buffer buffer)) (buffer-list))
@@ -187,6 +197,7 @@
   :init (setq cider-show-error-buffer nil)
   :config (progn
 	    ;; Disabling as was erroring. Should renable when investigated further.
+	    (global-set-key (kbd "C-c c b") 'cider-repl-clear-buffer)
 	    (define-key clojure-mode-map (kbd "C-c f") 'cider-format-buffer) ; rebind tab to run persistent action
 	    (add-hook 'cider-repl-mode-hook #'company-mode)
 	    (add-hook 'cider-mode-hook #'company-mode)))
@@ -225,6 +236,11 @@
   :config (progn
 	    (add-hook 'js-mode-hook 'prettier-js-mode)))
 
+(use-package vlf
+  :ensure t
+  :config (progn
+	    (require 'vlf-setup)))
+
 
 ;; - GENERATED Code
 
@@ -233,6 +249,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
  '(company-quickhelp-color-background "#4F4F4F")
@@ -242,9 +260,9 @@
  '(cua-normal-cursor-color "#657b83")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
- '(custom-enabled-themes '(leuven))
+ '(custom-enabled-themes '(zenburn))
  '(custom-safe-themes
-   '("f0b0416502d80b1f21153df6f4dcb20614b9992cde4d5a5688053a271d0e8612" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "aff12479ae941ea8e790abb1359c9bb21ab10acd15486e07e64e0e10d7fdab38" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "75a8194e6aa3ef759e8512fb6149137e2ada5947a7424e4278c395e374835afe" "e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" default))
+   '("b77a00d5be78f21e46c80ce450e5821bdc4368abf4ffe2b77c5a66de1b648f10" "9e3ea605c15dc6eb88c5ff33a82aed6a4d4e2b1126b251197ba55d6b86c610a1" "efcecf09905ff85a7c80025551c657299a4d18c5fcfedd3b2f2b6287e4edd659" "57a29645c35ae5ce1660d5987d3da5869b048477a7801ce7ab57bfb25ce12d3e" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "4c56af497ddf0e30f65a7232a8ee21b3d62a8c332c6b268c81e9ea99b11da0d3" "3b8284e207ff93dfc5e5ada8b7b00a3305351a3fb222782d8033a400a48eca48" "f0b0416502d80b1f21153df6f4dcb20614b9992cde4d5a5688053a271d0e8612" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "aff12479ae941ea8e790abb1359c9bb21ab10acd15486e07e64e0e10d7fdab38" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "75a8194e6aa3ef759e8512fb6149137e2ada5947a7424e4278c395e374835afe" "e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" default))
  '(fci-rule-color "#383838")
  '(highlight-changes-colors '("#d33682" "#6c71c4"))
  '(highlight-symbol-colors
